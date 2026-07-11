@@ -102,7 +102,7 @@ async function panggilAIKesimpulan() {
     }
 
     // MASUKKAN API KEY OPENAI KAMU DI SINI
-    const OPENAI_API_KEY = "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"; 
+    const OPENAI_API_KEY = "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"; 
 
     try {
         const response = await fetch('https://api.openai.com/v1/chat/completions', {
@@ -116,7 +116,7 @@ async function panggilAIKesimpulan() {
                 messages: [
                     {
                         role: 'system',
-                        content: 'Kamu adalah asisten notulensi rapat profesional. Tugasmu adalah merangkum teks transkrip rapat dalam Bahasa Indonesia. Berikan ringkasan eksekutif yang ketat, rapi, tanpa emoji, berbentuk poin-poin penting berisi: 1. Topik Utama, 2. Keputusan Rapat, 3. Daftar Tindakan (Action Items).'
+                        content: 'Kamu adalah asisten notulensi rapat profesional. Tugasmu adalah merangkum teks transkrip rapat dalam Bahasa Indonesia.'
                     },
                     {
                         role: 'user',
@@ -129,15 +129,18 @@ async function panggilAIKesimpulan() {
 
         const data = await response.json();
 
+        // JIKA ADA ERROR DARI OPENAI, TAMPILKAN DI KOTAK RINGKASAN
         if (data.error) {
-            throw new Error(data.error.message);
+            summaryResult.value = `Error dari OpenAI: ${data.error.message} (${data.error.code || 'No Code'})`;
+            return;
         }
 
         summaryResult.value = data.choices[0].message.content;
 
     } catch (error) {
         console.error("Error AI:", error);
-        summaryResult.value = "Gagal memproses ringkasan AI: " + error.message;
+        // JIKA JARINGAN ATAU BROWSER YANG ERROR, TAMPILKAN DI SINI
+        summaryResult.value = "Gagal konek ke AI. Detail Error: " + error.message;
     }
 }
 
