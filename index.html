@@ -3,42 +3,65 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AI Meeting Transcriber & Summarizer</title>
+    <title>Enterprise Meeting Assistant - Transcriber & Summarizer</title>
     <link rel="stylesheet" href="style.css">
+    <!-- Menggunakan font Poppins untuk kesan profesional -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
 </head>
-<body>
-    <div class="container">
-        <h1>🎙️ AI Meeting Assistant</h1>
-        <p class="subtitle">Rekam rapat, ubah ke teks, dan dapatkan kesimpulan instan.</p>
+<body class="light-mode"> <!-- Default: Mode Terang -->
+    
+    <nav class="navbar">
+        <div class="nav-container">
+            <span class="brand-name">Corporate Voice Intelligence</span>
+            <button id="themeToggle" class="btn-theme">Ubah Mode</button>
+        </div>
+    </nav>
+
+    <div class="main-container">
+        <header class="header-section">
+            <h1>Asisten Pertemuan AI</h1>
+            <p class="subtitle">Platform profesional untuk transkripsi dan ringkasan rapat otomatis.</p>
+        </header>
 
         <!-- Kontrol Perekaman -->
-        <div class="audio-controls">
-            <button id="startBtn" class="btn-record">🔴 Mulai Rekam</button>
-            <button id="stopBtn" class="btn-stop" disabled>⏹️ Berhenti</button>
-            <span id="status" class="status-text">Status: Siap</span>
+        <div class="controls-panel">
+            <div class="status-group">
+                <span class="status-label">Status Sistem:</span>
+                <span id="status" class="status-value status-ready">Siap</span>
+            </div>
+            <div class="action-group">
+                <button id="startBtn" class="btn-primary btn-start">Mulai Merekam</button>
+                <button id="stopBtn" class="btn-secondary btn-stop" disabled>Berhenti</button>
+            </div>
         </div>
 
-        <div class="content-box">
+        <div class="content-grid">
             <!-- Kolom Hasil Transkrip -->
-            <div class="box">
-                <h3>📝 Hasil Transkrip Suara (Speech-to-Text)</h3>
-                <textarea id="transcriptionResult" placeholder="Hasil rekaman suara akan muncul di sini menjadi teks..." readonly></textarea>
-            </div>
+            <section class="result-section">
+                <div class="section-header">
+                    <h3>Transkrip Suara (Speech-to-Text)</h3>
+                    <span class="language-tag">Bahasa Indonesia</span>
+                </div>
+                <textarea id="transcriptionResult" placeholder="Teks hasil rekaman suara akan muncul di sini..." readonly></textarea>
+            </section>
 
             <!-- Kolom Hasil Kesimpulan AI -->
-            <div class="box">
-                <h3>🤖 Kesimpulan AI (Summary)</h3>
-                <textarea id="summaryResult" placeholder="Kesimpulan poin-poin penting meeting akan muncul di sini..." readonly></textarea>
-            </div>
+            <section class="result-section">
+                <div class="section-header">
+                    <h3>Ringkasan Eksekutif (AI Summary)</h3>
+                    <span class="ai-tag">Powered by AI</span>
+                </div>
+                <textarea id="summaryResult" placeholder="Ringkasan poin-poin penting rapat akan muncul di sini..." readonly></textarea>
+            </section>
         </div>
 
-        <!-- Tombol Simpan Hasil -->
-        <div class="action-controls">
-            <button id="saveBtn" class="btn-save" disabled>💾 Simpan Hasil Rapat</button>
-        </div>
+        <!-- Tombol Ekspor -->
+        <footer class="action-footer">
+            <button id="saveBtn" class="btn-save" disabled>Ekspor Hasil Rapat (TXT)</button>
+        </footer>
     </div>
 
-    <!-- Menghubungkan ke file JavaScript logika -->
+    <!-- Menghubungkan ke file JavaScript -->
     <script src="app.js"></script>
 </body>
 </html>
