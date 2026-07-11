@@ -1,4 +1,4 @@
-/* --- Variabel Warna --- */
+/* --- VARIABEL WARNA (CSS VARIABLES) --- */
 :root {
     /* Mode Terang (Default) */
     --bg-color: #f8f9fa;
@@ -11,12 +11,11 @@
     --primary-hover: #004494;
     --secondary-color: #6c757d;
     --secondary-hover: #5a6268;
-    --danger-color: #dc3545; /* Merah untuk Berhenti */
+    --danger-color: #dc3545; /* Merah Berhenti */
     --danger-hover: #a71d2a;
-    --success-color: #198754; /* Hijau untuk Simpan */
+    --success-color: #198754; /* Hijau Ekspor */
     
     --shadow-sm: 0 1px 3px rgba(0,0,0,0.12);
-    --shadow-md: 0 4px 6px rgba(0,0,0,0.08);
 }
 
 /* Mode Gelap (Dark Mode) */
@@ -27,11 +26,12 @@ body.dark-mode {
     --text-secondary: #a0a0a0;
     --border-color: #333333;
     
+    --primary-color: #3792ff;
+    --primary-hover: #1c75e1;
     --shadow-sm: 0 1px 3px rgba(0,0,0,0.5);
-    --shadow-md: 0 4px 6px rgba(0,0,0,0.4);
 }
 
-/* --- Reset & Base Styles --- */
+/* --- STYLING DASAR --- */
 * {
     margin: 0;
     padding: 0;
@@ -39,14 +39,14 @@ body.dark-mode {
 }
 
 body {
-    font-family: 'Poppins', sans-serif; /* Font Profesional */
+    font-family: 'Poppins', sans-serif;
     background-color: var(--bg-color);
     color: var(--text-primary);
-    transition: background-color 0.3s, color 0.3s; /* Animasi transisi smooth */
+    transition: background-color 0.3s, color 0.3s;
     line-height: 1.6;
 }
 
-/* --- Navbar --- */
+/* --- NAVBAR --- */
 .navbar {
     background-color: var(--container-bg);
     border-bottom: 1px solid var(--border-color);
@@ -69,7 +69,7 @@ body {
     color: var(--primary-color);
 }
 
-/* --- Main Container --- */
+/* --- MAIN LAYOUT --- */
 .main-container {
     max-width: 1200px;
     margin: 2rem auto;
@@ -77,7 +77,6 @@ body {
     padding-bottom: 4rem;
 }
 
-/* --- Header --- */
 .header-section {
     text-align: center;
     margin-bottom: 2.5rem;
@@ -94,7 +93,7 @@ h1 {
     font-size: 1rem;
 }
 
-/* --- Controls Panel --- */
+/* --- PANEL KONTROL --- */
 .controls-panel {
     background-color: var(--container-bg);
     border: 1px solid var(--border-color);
@@ -136,7 +135,7 @@ body.dark-mode .status-recording { background-color: #561c20; color: #ea868f; }
     gap: 10px;
 }
 
-/* --- Content Grid --- */
+/* --- KOTAK HASIL (GRID) --- */
 .content-grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -191,6 +190,13 @@ textarea {
     font-size: 0.95rem;
     resize: none;
     line-height: 1.7;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+body.dark-mode textarea {
+    background-color: #2a2a2a;
+    color: #e0e0e0;
+    border-color: #444444;
 }
 
 textarea:focus {
@@ -198,7 +204,7 @@ textarea:focus {
     border-color: var(--primary-color);
 }
 
-/* --- Buttons --- */
+/* --- TOMBOL TOMBOL --- */
 button {
     font-family: 'Poppins', sans-serif;
     font-weight: 500;
@@ -254,7 +260,7 @@ button:disabled {
     font-size: 1rem;
 }
 
-/* --- Animations --- */
+/* --- ANIMASI REKAMAN --- */
 @keyframes pulse {
     0% { opacity: 1; }
     50% { opacity: 0.6; }
