@@ -1,4 +1,28 @@
-// Inisialisasi fitur Speech Recognition bawaan browser
+// --- LOGIKA TEMA (DARK/LIGHT MODE) ---
+const themeToggle = document.getElementById('themeToggle');
+const body = document.body;
+
+// Cek preferensi tema user di local storage saat halaman dimuat
+const currentTheme = localStorage.getItem('theme');
+if (currentTheme) {
+    body.classList.add(currentTheme);
+}
+
+themeToggle.addEventListener('click', () => {
+    // Toggle kelas .dark-mode pada body
+    body.classList.toggle('dark-mode');
+    
+    // Simpan preferensi user di local storage
+    let theme = 'light-mode';
+    if (body.classList.contains('dark-mode')) {
+        theme = 'dark-mode';
+    }
+    localStorage.setItem('theme', theme);
+});
+
+
+// --- LOGIKA PEREKAMAN SUARA (Sama seperti sebelumnya, hanya ganti teks status) ---
+
 const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
 let recognition;
 let isRecording = false;
@@ -12,71 +36,79 @@ const saveBtn = document.getElementById('saveBtn');
 
 if (SpeechRecognition) {
     recognition = new SpeechRecognition();
-    recognition.continuous = true; // Rekam terus menerus sampai dihentikan
-    recognition.interimResults = false; // Hanya ambil hasil akhir kalimat
-    recognition.lang = 'id-ID'; // Set bahasa ke Indonesia
+    recognition.continuous = true;
+    recognition.interimResults = false;
+    recognition.lang = 'id-ID';
 
-    // Ketika suara berhasil diubah jadi teks
     recognition.onresult = (event) => {
         let currentText = '';
         for (let i = event.resultIndex; i < event.results.length; i++) {
             currentText += event.results[i][0].transcript + ' ';
         }
-        // Tambahkan teks baru ke dalam box transkrip
         transcriptionResult.value += currentText;
     };
 
     recognition.onerror = (event) => {
         console.error("Error perekaman: ", event.error);
-        statusText.innerText = "Status: Terjadi kesalahan perekaman.";
+        statusText.innerText = "Terjadi Kesalahan";
+        statusText.className = "status-value status-ready"; // Reset warna
     };
 
     recognition.onend = () => {
-        statusText.innerText = "Status: Rekaman berhenti.";
+        if (isRecording) {
+            recognition.start(); // Restart jika berhenti tak sengaja saat masih mode rekam
+        } else {
+            statusText.innerText = "Selesai";
+            statusText.className = "status-value status-ready";
+        }
     };
 
 } else {
-    alert("Maaf, browsermu tidak mendukung fitur rekam suara langsung. Gunakan Google Chrome/Edge terbaru.");
+    alert("Browser tidak mendukung fitur perekaman suara langsung. Gunakan Chrome/Edge terbaru.");
 }
 
-// Tombol Mulai Rekam
 startBtn.addEventListener('click', () => {
     if (recognition && !isRecording) {
         recognition.start();
         isRecording = true;
+        
+        // Update UI
         startBtn.disabled = true;
         stopBtn.disabled = false;
         saveBtn.disabled = true;
-        statusText.innerText = "Status: Mendengarkan rapat... 🎙️";
+        
+        statusText.innerText = "Sedang Merekam...";
+        statusText.className = "status-value status-recording"; // Ganti warna jadi merah pulse
     }
 });
 
-// Tombol Berhenti Rekam
 stopBtn.addEventListener('click', () => {
     if (recognition && isRecording) {
+        isRecording = false; // Set flag dulu agar tidak autorestart di onend
         recognition.stop();
-        isRecording = false;
+        
+        // Update UI
         startBtn.disabled = false;
         stopBtn.disabled = true;
         saveBtn.disabled = false;
-        statusText.innerText = "Status: Rekaman selesai. Memproses AI...";
         
-        // Simulasi memanggil AI untuk rangkuman (Nanti kita ganti dengan API Key betulan)
+        statusText.innerText = "Memproses Ringkasan AI...";
+        statusText.className = "status-value status-ready";
+        
         panggilAIKesimpulan();
     }
 });
 
-// Fungsi Simulasi AI Kesimpulan
 function panggilAIKesimpulan() {
-    summaryResult.value = "Menghubungkan ke AI...\n\n(Nanti di sini teks transkrip di atas akan dikirim ke API AI, lalu AI akan mengembalikan teks berupa kesimpulan rapat, poin keputusan, dan action plan secara otomatis).";
+    summaryResult.value = "Menghubungkan ke layanan AI untuk analisis...\n\n[Placeholder]: Di sini teks transkrip akan dikirim ke API AI, lalu AI akan mengembalikan poin-poin penting, keputusan rapat, dan daftar tindakan (action items) secara otomatis.";
 }
 
-// Tombol Simpan Hasil (Fitur download file teks sederhana dulu)
 saveBtn.addEventListener('click', () => {
-    const teksYangDisimpan = `--- HASIL RAPAT ---\n\n[TRANSKRIP]:\n${transcriptionResult.value}\n\n[KESIMPULAN AI]:\n${summaryResult.value}`;
+    const tanggal = new Date().toLocaleDateString('id-ID').replace(/\//g, '-');
+    const teksYangDisimpan = `--- DOKUMEN HASIL RAPAT ---\nTanggal: ${tanggal}\n\n[1. TRANSKRIP MENTAH]\n${transcriptionResult.value}\n\n[2. RINGKASAN EKSEKUTIF AI]\n${summaryResult.value}`;
     const blob = new Blob([teksYangDisimpan], { type: 'text/plain' });
     const link = document.createElement('a');
     link.href = URL.createObjectURL(blob);
-    link.download = `Hasil_Rapat_${new Date().toLocaleDateString()}.txt`;
+    link.download = `Notulensi_Rapat_${tanggal}.txt`;
     link.click();
 });
