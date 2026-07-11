@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Meeting Transcriber & Summarizer</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>🎙️ AI Meeting Assistant</h1>
+        <p class="subtitle">Rekam rapat, ubah ke teks, dan dapatkan kesimpulan instan.</p>
+
+        <!-- Kontrol Perekaman -->
+        <div class="audio-controls">
+            <button id="startBtn" class="btn-record">🔴 Mulai Rekam</button>
+            <button id="stopBtn" class="btn-stop" disabled>⏹️ Berhenti</button>
+            <span id="status" class="status-text">Status: Siap</span>
+        </div>
+
+        <div class="content-box">
+            <!-- Kolom Hasil Transkrip -->
+            <div class="box">
+                <h3>📝 Hasil Transkrip Suara (Speech-to-Text)</h3>
+                <textarea id="transcriptionResult" placeholder="Hasil rekaman suara akan muncul di sini menjadi teks..." readonly></textarea>
+            </div>
+
+            <!-- Kolom Hasil Kesimpulan AI -->
+            <div class="box">
+                <h3>🤖 Kesimpulan AI (Summary)</h3>
+                <textarea id="summaryResult" placeholder="Kesimpulan poin-poin penting meeting akan muncul di sini..." readonly></textarea>
+            </div>
+        </div>
+
+        <!-- Tombol Simpan Hasil -->
+        <div class="action-controls">
+            <button id="saveBtn" class="btn-save" disabled>💾 Simpan Hasil Rapat</button>
+        </div>
+    </div>
+
+    <!-- Menghubungkan ke file JavaScript logika -->
+    <script src="app.js"></script>
+</body>
+</html>
